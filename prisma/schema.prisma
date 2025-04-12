@@ -1,0 +1,50 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["typedSql"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model File {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  title      String   @db.VarChar(255)
+  filepath   String
+  mimetype   String
+  authorId   String
+  folderID   Int?
+  author     Profile  @relation(fields: [authorId], references: [id])
+  folder     Folder?  @relation(fields: [folderID], references: [id])
+}
+
+model Profile {
+  id        String   @id   
+  username  String?  
+  files     File[]
+  folders   Folder[]
+}
+
+model Folder {
+  id       Int      @id @default(autoincrement())
+  name     String?
+  ownerId  String?  
+  files    File[]
+  owner    Profile? @relation(fields: [ownerId], references: [id])
+  parentId Int?
+  parent   Folder?  @relation("FolderHierachy", fields: [parentId], references: [id])
+  children Folder[] @relation("FolderHierachy")
+  
+  @@unique([name, ownerId])
+}
+
+model session {
+  sid    String   @id
+  sess   Json     @db.Json
+  expire DateTime @db.Timestamptz(6)
+
+  @@index([expire], map: "IDX_session_expire")
+}

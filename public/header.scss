@@ -1,0 +1,18 @@
+.header{
+    display:flex;
+    padding-left:2rem;
+    height:70px;
+    align-items: center;
+    background-color: rgb(15, 22, 31);
+    border-bottom:1px solid white;
+
+    p{
+        color:white;
+        font-weight:600;
+        font-size:1.4rem;
+    }
+    .displayCurrentFolderText{
+        margin-left:100px;
+      
+    }
+}

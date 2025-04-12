@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/public/main.css">
+  <link rel="stylesheet" href="/public/navbar.css">
+  <link rel="stylesheet" href="/public/header.css">
+
+</head>
+<body>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="container">
+    
+  <%- include('partial/navbar') %>
+  <button id="toggleNavOn" class="toggleNavOn" >></button>
+  <div id="fileDisplayContainer" class="fileDisplayContainer">
+  
+    <div class="uploadNewContainer">
+      <h2>Upload a file?</h2>
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <p id="file-name">No file chosen</p>
+        <label for ='file' class="custom-file-label">Choose a file</label>
+        
+        <input id='file' type="file" name="file" />
+        <input type="hidden" name="parentFolderName" value="<%= currentFolderName ? currentFolderName : '' %>" />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <div class="header">
+      <p class="headerFolder">Welcome to your storage</p>
+      <p class="displayCurrentFolderText">Current Folder: <%= currentFolderName %></p>
+    </div>
+
+
+    <!-- Folder Navigation -->
+    <div class="folderNavigation">
+      <h3 class="headerFolder">Folders</h3>
+      <% if (folders && folders.length > 0) { %>
+        <ul class="folderList">
+          <% folders.forEach(function(folder) { %>
+            <a class='folderLink' href="/folder?folderName=<%= encodeURIComponent(folder.name) %>">
+            <li class="folderSquare">
+              <!-- Create a link that passes the folderId as a query parameter -->
+              <p class="folderName"><%= folder.name %></p>
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 96C0 60.7 28.7 32 64 32l132.1 0c19.1 0 37.4 7.6 50.9 21.1L289.9 96 448 96c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-256c0-8.8-7.2-16-16-16l-161.4 0c-10.6 0-20.8-4.2-28.3-11.7L213.1 87c-4.5-4.5-10.6-7-17-7L64 80z"/></svg>
+     
+            </li>
+          </a>
+          <% }); %>
+        </ul>
+      <% } else { %>
+        <p class="noFolders">No folders available.</p>
+      <% } %>
+    </div>
+
+    <h3 class="headerFolder">Files</h3>
+<div class="fileDisplay">
+
+  <% if (files && files.length > 0) { %>
+    <ul>
+      <% files.forEach(function(file) { %>
+        <li class="fileSquare">
+          <label>Name:</label>
+          <p><%= file.title %></p>
+          <% if (file.title.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
+            <img src="<%= file.url %>" alt="<%= file.title %>">
+            <a href="<%= file.url %>" target="_blank">View / Download</a>
+          <% } else { %>
+            <i class="<%= file.iconClass %> fa-6x fileIcon"></i>
+            <a href="<%= file.url %>" target="_blank">View / Download</a>
+          <% } %>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p class="noFilesText">No files available.</p>
+  <% } %>
+  
+</div>
+
+<div class="overlay" id="overlay"></div>
+    <form class="formContainer" id="formContainer" action="/newFolder" method="POST">
+ 
+      <h1>New Folder</h1>
+      <div class="newFolderParam">
+      <button type="reset" class="exitButton" id="exitButton">X</button>
+   
+      <label for="folder">Enter New Folder Name:</label>
+      <input id="folder" name="folder" placeholder="New Folder" type="text" />
+      <input type="hidden" name="parentId" value="<%= currentFolderId ? currentFolderId : '' %>" />
+      <input type="hidden" name="currentFolderName" value="<%= currentFolderName ? currentFolderName : '' %>" />
+      </div>
+
+      <button class="submitButton">Submit</button>
+    </form>  
+  </div>
+</div>
+</body>
+<script src="/public/js/addNewFolder.js"></script>
+<script src="/public/js/navNest.js"></script>
+</html>

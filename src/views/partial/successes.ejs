@@ -1,0 +1,9 @@
+<% if (successes && successes.length > 0) { %>
+    <div class="successListWrapper" style="color: rgb(51, 255, 0); margin-bottom: 10px;">
+      <ul class="successList">
+        <% successes.forEach(success => { %>
+          <li><%= success.msg %></li> 
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>

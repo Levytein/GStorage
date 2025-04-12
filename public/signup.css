@@ -1,0 +1,39 @@
+.formSpacer {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  background-color: cornflowerblue;
+  padding: 20px;
+  border-radius: 15px;
+}
+.formContainer label {
+  font-weight: 600;
+}
+.formContainer input {
+  min-width: 300px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1.2rem;
+}
+.formContainer input:focus {
+  outline: blue solid 1px;
+}
+.formContainer button {
+  border: none;
+  font-weight: 600;
+  margin-top: 2rem;
+  width: 100px;
+  align-self: center;
+  border-radius: 10px;
+  height: 25px;
+}
+
+/*# sourceMappingURL=signup.css.map */
